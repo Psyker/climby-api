@@ -1,0 +1,5 @@
+App\Entity\User:
+  user{1..5}:
+    email: <safeEmail()>
+    plainPassword: password
+    roles: ['ROLE_USER']

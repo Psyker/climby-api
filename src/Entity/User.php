@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
+ * @ORM\EntityListeners({"App\EventListener\UserListener"})
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
 class User implements UserInterface
@@ -32,6 +33,11 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $plainPassword;
 
     public function getId(): ?int
     {
@@ -108,6 +114,18 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+         $this->plainPassword = null;
+    }
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(?string $plainPassword = null): self
+    {
+        $this->plainPassword = $plainPassword;
+
+        return $this;
     }
 }
