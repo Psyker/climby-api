@@ -18,10 +18,10 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package App\Controller
  * @Route("/api")
  */
-class MediaController extends AbstractController
+class MediaController extends ApiController
 {
     /**
-     * @Route("/upload", name="media_upload")
+     * @Route("/upload", name="upload_media")
      */
     public function upload(Request $request, UploadHelper $uploadHelper, EntityManagerInterface $em): JsonResponse
     {

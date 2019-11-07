@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\VideoMediaRepository")
@@ -13,6 +14,7 @@ class VideoMedia extends Media
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"api"})
      */
     private $duration;
 
