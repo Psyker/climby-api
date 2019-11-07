@@ -9,22 +9,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class VideoMedia extends Media
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    public const STORAGE_DIR = 'video/';
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private $duration;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getDuration(): ?int
     {

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,11 +24,6 @@ class ClimbingWay
     private $grade;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\PhotoMedia", cascade={"persist", "remove"})
-     */
-    private $photo;
-
-    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $comment;
@@ -41,6 +38,16 @@ class ClimbingWay
      */
     private $updated_at;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PhotoMedia", mappedBy="climbingWay", orphanRemoval=true)
+     */
+    private $photos;
+
+    public function __construct()
+    {
+        $this->photos = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -54,18 +61,6 @@ class ClimbingWay
     public function setGrade(string $grade): self
     {
         $this->grade = $grade;
-
-        return $this;
-    }
-
-    public function getPhoto(): ?PhotoMedia
-    {
-        return $this->photo;
-    }
-
-    public function setPhoto(?PhotoMedia $photo): self
-    {
-        $this->photo = $photo;
 
         return $this;
     }
@@ -102,6 +97,37 @@ class ClimbingWay
     public function setUpdatedAt(?\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PhotoMedia[]
+     */
+    public function getPhotos(): Collection
+    {
+        return $this->photos;
+    }
+
+    public function addPhoto(PhotoMedia $photo): self
+    {
+        if (!$this->photos->contains($photo)) {
+            $this->photos[] = $photo;
+            $photo->setClimbingWay($this);
+        }
+
+        return $this;
+    }
+
+    public function removePhoto(PhotoMedia $photo): self
+    {
+        if ($this->photos->contains($photo)) {
+            $this->photos->removeElement($photo);
+            // set the owning side to null (unless already changed)
+            if ($photo->getClimbingWay() === $this) {
+                $photo->setClimbingWay(null);
+            }
+        }
 
         return $this;
     }

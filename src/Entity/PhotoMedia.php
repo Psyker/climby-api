@@ -9,12 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PhotoMedia extends Media
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    public const STORAGE_DIR = 'photo/';
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -26,11 +21,11 @@ class PhotoMedia extends Media
      */
     private $height;
 
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ClimbingWay", inversedBy="photos")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $climbingWay;
 
     public function getWidth(): ?int
     {
@@ -59,5 +54,17 @@ class PhotoMedia extends Media
     public function getType(): string
     {
        return 'photo';
+    }
+
+    public function getClimbingWay(): ?ClimbingWay
+    {
+        return $this->climbingWay;
+    }
+
+    public function setClimbingWay(?ClimbingWay $climbingWay): self
+    {
+        $this->climbingWay = $climbingWay;
+
+        return $this;
     }
 }
